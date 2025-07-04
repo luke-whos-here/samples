@@ -1,0 +1,190 @@
+openapi: 3.0.0
+x-hasEquivalentPaths: true
+info:
+  description: Learn and prepare for surgery, anytime, anywhere.
+  termsOfService: https://www.touchsurgery.com/terms
+  title: Touch Surgery
+  version: bff/v1/v2/v3
+  x-providerName: touchsurgery.com
+  x-unofficialSpec: false
+externalDocs:
+  url: https://www.touchsurgery.com/docs/internal/
+servers:
+  - url: https://live.touchsurgery.com
+tags:
+  - name: BFF
+description: Backend-for-frontend APIs
+  - name: v1
+description: v1 APIs
+  - name: v2
+description: v2 APIs
+  - name: v3
+description: v3 APIs
+paths:
+  /api/medical_occupation:
+    get:
+      description: Returns list of all allied health occupations available on Touch Surgery.
+      summary: List of allied health occupations
+      tags:
+        - v1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/medical_occupation'
+  /api/v3/channels/${channelUuid}/videos:
+    post:
+      description: Uploads a video to the platform.
+      summary: Upload video
+      tags:
+        - v3
+      parameters:
+        - name: channelUuid
+          description: UUID reference for a channel.
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: Authorization
+          description: Authorization token
+          in: header
+          schema:
+            type: string
+            example: "token"
+      requestBody:
+        content:
+          video/*:
+            schema:
+              type: string
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              credits:
+                description: Video credits.
+                type: string
+              title:
+                description: Title of the video.
+                type: string
+              consent_given:
+                description: Confirmation of consent status.
+                type: boolean
+              data_privacy_confirmation:
+                description: Confirmation of data privacy status.
+                type: boolean
+              auto_publish:
+                description: Auto publish status.
+                type: boolean
+              procedure_code:
+                description: Procedure reference code for the Touch Surgery platform. Not SNOMED code. Use GET /api/v3/procedure_codes to retrieve a list of all procedure codes.
+                type: string
+      responses:
+        '201':
+          description: Successful creation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Text message confirming status.
+                    type: string
+                    example: "Video uploaded"
+                  video_uuid:
+                    description: UUID of the uploaded video.
+                    type: string
+                  procedure_category_uuid:
+                    description: UUID of the procedure category under which the video is listed.
+                    type: string
+                  url:
+                    description: URL where the video is stored. This is usually an Amazon S3 URL.
+                    type: string
+                    example: "url"
+                  fields:
+                    description: Technical data related to the video upload.
+                    type: object
+                    properties:
+                      AccessKeyId:
+                        description: ID of access key
+                        type: string
+                      SecretAccessKey:
+                        description: Secret access key
+                        type: string
+                      SessionToken:
+                        description: Session token
+                        type: string
+                      Expiration:
+                        description: Time of expiration of the session. Expressed as Year-Month-Day Hour:Minute:Second (24-hour format).
+                        type: string
+                        example: "2019-07-16T20:03:00Z"
+                      region:
+                        description: Geographical region of video
+                        type: string
+                        example: eu-west-1
+                      bucket:
+                        description: Name of storage bucket
+                        type: string
+                        example: media-touchsurgery
+                      key:
+                        description: Identifying path for the video
+                        type: string
+                        example: media/video/2c3bef51-f356-41a9-9c68-24f2308c50fb/original
+                  title:
+                    description: Title of the video. Default is the file name.
+                    type: string 
+                    example: Laparoscopic cholecystectomy in a 45-year-old female
+                  consent_given:
+                    description: Consent status
+                    type: boolean
+                    example: "true"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    $ref: '#/components/schemas/detail'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    $ref: '#/components/schemas/detail'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    $ref: '#/components/schemas/detail'
+components:
+  schemas:
+    detail:
+      description: Explanatory text.
+      type: string
+      example: "Error"
+    medical_occupation:
+      description: Allied health occupation on Touch Surgery.
+      type: object
+      properties:
+        id:
+          description: Numerical ID of an occupation, starting at 1.
+          type: number
+          minimum: 1
+          example: "1"
+        name:
+          description: Name of the occupation, e.g. Pharmacist, Dental Nurse.
+          type: string
+          example: "Pharmacist"
