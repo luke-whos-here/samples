@@ -10,7 +10,7 @@ Here is an example showing how to define a push notification:
 
     class ViewCountReached(push.Notification):
         title = 'Your procedure is helping people'
-        body = 'Wow, {{name}}! Your proceudre has been viewed {{count}} times.'
+        body = 'Wow, {{name}}! Your procedure has been viewed {{count}} times.'
         deep_link = 'https://a-deep-link.com/?procedure=my-procedure'
         defaults = {'name': 'Doctor', 'count': 'many'}
 
