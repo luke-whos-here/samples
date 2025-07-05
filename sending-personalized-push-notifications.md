@@ -10,6 +10,7 @@ from touchsurgery.comms import push
 
 ```python
 class ViewCountReached(push.Notification):
+
     title = 'Your procedure is helping people'
     body = 'Wow, {{name}}! Your procedure has been viewed {{count}} times.'
     deep_link = 'https://a-deep-link.com/?procedure=my-procedure'
@@ -25,25 +26,27 @@ class ViewCountReached(push.Notification):
 
 You can set any kind of event to trigger your push notification to send. Continuing with our `ViewCountReached` example, we might decide to send it during a view count calculation, when the view count has met a threshold value.
 
-    from touchsurgery.comms.push import notifications
+```python
+from touchsurgery.comms.push import notifications
 
-    ...
+...
 
-    for procedure in procedures:
-        count = calculate_view_count(procedure)
-        if count > procedure.next_threshold():
-            notifications.ViewCountReached().send(
-            	[
-            	    {
-            	    	'user': procedure.author,
-            	    	'variables': {
-            	    		'count': count,
-            	    		'name': procedure.author.first_name
-            	    	}
+for procedure in procedures:
+    count = calculate_view_count(procedure)
+    if count > procedure.next_threshold():
+        notifications.ViewCountReached().send(
+            [
+              {
+            	'user': procedure.author,
+            	'variables': {
+            	    'count': count,
+            	    'name': procedure.author.first_name
             	    }
-            	],
-            	deep_link = get_procedure_deep_link(procedure)
-            )
+              }
+            ],
+            deep_link = get_procedure_deep_link(procedure)
+        )
+```
 
 The `send` method queries the dictionary to get the user, the `{{variable}}` elements, and the optional deep link.
 
