@@ -6,13 +6,15 @@ We can send push notifications to a specific user or list of users. This happens
 
 Here is an example showing how to define a push notification:
 
-    from touchsurgery.comms import push
+from touchsurgery.comms import push
 
-    class ViewCountReached(push.Notification):
-        title = 'Your procedure is helping people'
-        body = 'Wow, {{name}}! Your procedure has been viewed {{count}} times.'
-        deep_link = 'https://a-deep-link.com/?procedure=my-procedure'
-        defaults = {'name': 'Doctor', 'count': 'many'}
+```python
+class ViewCountReached(push.Notification):
+    title = 'Your procedure is helping people'
+    body = 'Wow, {{name}}! Your procedure has been viewed {{count}} times.'
+    deep_link = 'https://a-deep-link.com/?procedure=my-procedure'
+    defaults = {'name': 'Doctor', 'count': 'many'}
+```
 
 - **title:** Title text of the notification. `{{variable}}` elements can be added, and are filled at the time of send.
 - **body:** Body text of the notification. `{{variable}}` elements can be added, and are filled at the time of send.
