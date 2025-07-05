@@ -60,19 +60,23 @@ Each push notification allows a single deep link only. If you need a notificatio
 
 This is how the `Notification` class is built.
 
-    class touchsurgery.comms.push.Notification
+```python
+class touchsurgery.comms.push.Notification
 
-      body = ''
-      deep_link: str | None = None
-      defaults: dict = {}
-      send(payloads, deep_link=None, send_immediately=True, expires_after=None)
-      title = ''
+    body = ''
+    deep_link: str | None = None
+    defaults: dict = {}
+    send(payloads, deep_link=None, send_immediately=True, expires_after=None)
+    title = ''
+```
 
 There is a subclass, `OneOffNotificaton`, that is intended for one-off push notifications.
 
-    class touchsurgery.comms.push.OneOffNotification(title, body, deep_link=None, defaults=None)
+```python
+class touchsurgery.comms.push.OneOffNotification(title, body, deep_link=None, defaults=None)
 
-      send(payloads, deep_link=None, send_immediately=True, expires_after=None)
+    send(payloads, deep_link=None, send_immediately=True, expires_after=None)
+```
 
 ## How this works
 
