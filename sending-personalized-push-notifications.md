@@ -14,10 +14,10 @@ Here is an example showing how to define a push notification:
         deep_link = 'https://a-deep-link.com/?procedure=my-procedure'
         defaults = {'name': 'Doctor', 'count': 'many'}
 
-**title:** Title text of the notification. `{{variable}}` elements can be added, and are filled at the time of send.
-**body:** Body text of the notification. `{{variable}}` elements can be added, and are filled at the time of send.
-**deep_link:** Optional. If present, the notification links to the specified URL. If absent, the notification opens the app.
-**defaults:** Provide defaults for `{{variable}}` elements if the dictionary returns a blank field.
+- **title:** Title text of the notification. `{{variable}}` elements can be added, and are filled at the time of send.
+- **body:** Body text of the notification. `{{variable}}` elements can be added, and are filled at the time of send.
+- **deep_link:** Optional. If present, the notification links to the specified URL. If absent, the notification opens the app.
+- **defaults:** Provide defaults for `{{variable}}` elements if the dictionary returns a blank field.
 
 ## Setting a trigger for your push notification
 
